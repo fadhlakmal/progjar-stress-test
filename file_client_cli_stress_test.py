@@ -116,8 +116,9 @@ def stress_test(server_type='thread'):
     count = 1
     for operation in operations:
         for file in files:
-            file_size = int(file.split('_')[1].split('mb')[0]) * 1024 * 1024
-            
+            file_size_mb = int(file.split('_')[1].split('mb')[0])
+            file_size = file_size_mb * 1024 * 1024
+
             for client_worker_count in workers:
                 for server_worker_count in [1, 5, 50]:
                     print(f"Running test: {operation} of {file} with {client_worker_count} client workers and {server_worker_count} {server_type} server workers")
@@ -163,7 +164,7 @@ def stress_test(server_type='thread'):
                     result = {
                         'No': count,
                         'Operation': operation,
-                        'Volume': file,
+                        'Volume': file_size_mb,
                         'Client Workers': client_worker_count,
                         'Server Type': server_type,
                         'Server Workers': server_worker_count,
